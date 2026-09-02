@@ -14,20 +14,21 @@
     {{-- Hero image --}}
     <div class="absolute inset-0 -z-20">
 
-        <img
-            src="{{ asset('images/Hero-MC.jpg') }}"
-            alt="Motorcyklist på en slingrande väg"
-            class="h-full w-full object-cover">
+    <img
+        src="{{ asset('images/Hero-MC.jpg') }}"
+        alt="Motorcyklist på en slingrande väg"
+        class="h-full w-full object-cover">
 
-        {{-- Dark overlay --}}
-        <div class="absolute inset-0 bg-black/55"></div>
+    {{-- Ljusare overlay (sänkt från 55% till 20%) --}}
+    <div class="absolute inset-0 bg-black/20"></div>
 
-        {{-- Gradient --}}
-        <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-black/20"></div>
+    {{-- Ljusare gradient från vänster (sänkt startvärde och mjukare övergång) --}}
+    <div class="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent"></div>
 
-        <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-black/20"></div>
+    {{-- Mjukare gradient från botten (tonar ut till helt transparent snabbare) --}}
+    <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent"></div>
 
-    </div>
+</div>
 
 
     <div class="mx-auto flex min-h-[calc(100vh-5rem)] max-w-7xl items-center px-6 py-24 lg:px-8">

@@ -138,7 +138,7 @@
                 <div>
 
                     <p class="text-xs font-medium text-zinc-500">
-                        {{ date('Y-F-d', strtotime($post->created_at)) }}
+                        {{ ($post->created_at->translatedFormat('j F Y')) }}
                     </p>
 
                     <h3 class="mt-2 text-2xl font-black text-white transition group-hover:text-orange-400">
@@ -146,7 +146,7 @@
                     </h3>
 
                     <p class="mt-3 max-w-2xl text-sm leading-6 text-zinc-400">
-                        {{ Str::words($post->content, 10, '...') }}
+                        {{ Str::words($post->content, 20, '...') }}
                     </p>
 
                     <a

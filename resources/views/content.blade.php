@@ -26,7 +26,7 @@
             <p class="mt-3 ml-9 text-sm text-zinc-500">
                 {{ $post->created_at }}
                 {{ $post->title }}
-                {{ $post->content }}
+                {!! \Illuminate\Support\Str::markdown($post->content) !!}
 
                 <img src="{{ asset('images/' . $post->image) }}" alt=""
                     class="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105">

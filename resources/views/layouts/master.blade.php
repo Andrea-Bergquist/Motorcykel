@@ -26,6 +26,8 @@
 
     <main>
         @yield('content')
+
+        @yield('post')
     </main>
 
     <footer class="border-t border-white/10 bg-zinc-950">

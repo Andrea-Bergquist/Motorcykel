@@ -116,7 +116,7 @@
 
 
         {{-- =================================================
-             POST 1
+             Inläggen
         ================================================== --}}
 
         @foreach ($posts as $post)
@@ -138,7 +138,7 @@
                 <div>
 
                     <p class="text-xs font-medium text-zinc-500">
-                        {{ $post->created_at }}
+                        {{ date('Y-F-d', strtotime($post->created_at)) }}
                     </p>
 
                     <h3 class="mt-2 text-2xl font-black text-white transition group-hover:text-orange-400">
@@ -146,11 +146,11 @@
                     </h3>
 
                     <p class="mt-3 max-w-2xl text-sm leading-6 text-zinc-400">
-                        {{ $post->content }}
+                        {{ Str::words($post->content, 10, '...') }}
                     </p>
 
                     <a
-                        href="#"
+                        href="{{ route('show', ['id' => $post->id]) }}"
                         class="mt-4 inline-flex text-sm font-bold text-orange-500 hover:text-orange-400">
                         Läs mer →
                     </a>
@@ -165,7 +165,7 @@
                     </span>
 
                     <span class="text-xs text-zinc-500">
-                        ◷ 5 min läsning
+                        ◷ {{ $post->reading_time }}
                     </span>
 
                 </div>
@@ -355,4 +355,4 @@
         </div>
     </section>
 
-    @endsection
+@endsection

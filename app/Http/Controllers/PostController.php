@@ -9,11 +9,17 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::with('images')
-            ->orderBy('created_at', 'desc')
+        $posts = Post::orderBy('created_at', 'desc')
             ->limit(5)
             ->get();
       
         return view('welcome', compact('posts'));
+    }
+
+    public function show($id)
+    {
+        $post = Post::with('images')->findOrFail($id);
+        
+        return view('content', compact('post'));
     }
 }

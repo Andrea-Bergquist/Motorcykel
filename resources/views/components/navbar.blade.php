@@ -1,6 +1,7 @@
 <nav
     x-data="{ open: false }"
     class="sticky top-0 z-50 border-b border-white/10 bg-zinc-950/95 backdrop-blur-xl">
+    
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
 
         <div class="flex h-20 items-center justify-between">

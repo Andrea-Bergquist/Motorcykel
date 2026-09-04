@@ -28,6 +28,8 @@
         @yield('content')
 
         @yield('post')
+
+        @yield('login')
     </main>
 
     <footer class="border-t border-white/10 bg-zinc-950">

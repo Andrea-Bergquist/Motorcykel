@@ -33,6 +33,31 @@
     </main>
 
     <footer class="border-t border-white/10 bg-zinc-950">
+
+        <!-- Newsletter -->
+        <section class="border-b border-white/10">
+            <div class="mx-auto max-w-7xl px-6 py-16 lg:px-8">
+                <div class="relative overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/60 px-6 py-10 sm:px-10 lg:px-12"> <!-- Subtil orange glöd -->
+                    <div class="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-orange-500/10 blur-3xl"></div>
+                    <div class="relative grid gap-8 lg:grid-cols-2 lg:items-center">
+                        <div> <span class="text-sm font-bold uppercase tracking-widest text-orange-500"> MC Bloggen </span>
+                            <h2 class="mt-2 text-2xl font-black tracking-tight text-white sm:text-3xl"> Missa inget på vägen. </h2>
+                            <p class="mt-3 max-w-xl text-sm leading-6 text-zinc-400"> Prenumerera på vårt nyhetsbrev och få de senaste artiklarna, guiderna, testerna och MC-tipsen direkt till din inkorg. </p>
+                        </div>
+                        <form class="flex w-full lg:justify-end">
+                            <label for="newsletter-email" class="sr-only"> Din e-postadress </label>
+                            <div class="flex w-full max-w-xl overflow-hidden rounded-l-lg border border-white/10 bg-zinc-950 p-1.5 transition focus-within:border-orange-500/50 focus-within:ring-2 focus-within:ring-orange-500/10">
+                                <input id="newsletter-email" type="email" name="email" placeholder="Din e-postadress" required class="min-w-0 flex-1 rounded-l-md bg-transparent px-3 text-sm text-white outline-none placeholder:text-zinc-600">
+                                <button type="submit" class="shrink-0 rounded-r-md bg-orange-500 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-orange-400 focus:outline-none">
+                                    Prenumerera
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <div class="mx-auto max-w-7xl px-6 py-12 lg:px-8">
 
             <div class="grid gap-10 md:grid-cols-3">

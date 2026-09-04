@@ -9,6 +9,8 @@ Route::get('/', [PostController::class, 'index'])->name('home');
 
 Route::get('/post/{id}', [PostController::class, 'show'])->name('show');
 
+Route::post('/newsletter/subscribe', [PostController::class, 'subscribe'])->name('newsletter.subscribe');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

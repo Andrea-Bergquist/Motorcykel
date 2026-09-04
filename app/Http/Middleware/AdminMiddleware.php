@@ -18,7 +18,7 @@ class AdminMiddleware
         if ($request->user() && $request->user()->role === 'admin') {
             return $next($request);
         }
-        
+
         abort(403, 'Auktorisering saknas. Denna sida är privat.');
     }
 }

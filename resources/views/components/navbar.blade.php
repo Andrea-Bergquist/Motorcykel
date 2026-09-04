@@ -8,56 +8,72 @@
             {{-- Logo --}}
             <a
                 href="{{ url('/') }}"
-                class="text-xl font-black tracking-tight">
+                class="text-xl font-black tracking-tight whitespace-nowrap">
                 <span class="text-orange-500">MC</span>
                 Bloggen
             </a>
 
 
             {{-- Desktop --}}
-            <div class="hidden items-center gap-8 md:flex">
+            <div class="hidden w-full grid-cols-[1fr_auto_1fr] items-center md:grid">
 
-                <a
-                    href="{{ url('/') }}"
-                    class="text-sm font-medium text-white">
-                    Hem
-                </a>
+                <!-- 1. VÄNSTER SPALT: Tom -->
+                <div></div>
 
-                <a
-                    href="#kategorier"
-                    class="text-sm font-medium text-zinc-400 transition hover:text-white">
-                    Kategorier
-                </a>
+                <!-- 2. MITTEN SPALT: Centrerad och skyddad mot radbrytningar -->
+                <div class="flex justify-center items-center space-x-8">
+                    <a
+                        href="{{ url('/') }}"
+                        class="whitespace-nowrap text-sm font-medium text-white">
+                        Hem
+                    </a>
 
-                <a
-                    href="#om"
-                    class="text-sm font-medium text-zinc-400 transition hover:text-white">
-                    Om bloggen
-                </a>
+                    <a
+                        href="#kategorier"
+                        class="whitespace-nowrap text-sm font-medium text-zinc-400 transition hover:text-white">
+                        Kategorier
+                    </a>
 
-                <a
-                    href="#kontakt"
-                    class="text-sm font-medium text-zinc-400 transition hover:text-white">
-                    Kontakta
-                </a>
+                    <!-- whitespace-nowrap garanterar att "Om" och "bloggen" stannar på samma rad -->
+                    <a
+                        href="#om"
+                        class="whitespace-nowrap text-sm font-medium text-zinc-400 transition hover:text-white">
+                        Om bloggen
+                    </a>
 
-                <a
-                    href="#senaste"
-                    aria-label="Sök"
-                    class="text-zinc-400 transition hover:text-orange-400">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.7"
-                        stroke="currentColor"
-                        class="h-5 w-5">
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="m21 21-4.35-4.35m1.35-5.4a6.75 6.75 0 1 1-13.5 0 6.75 6.75 0 0 1 13.5 0Z" />
-                    </svg>
-                </a>
+                    <a
+                        href="#kontakt"
+                        class="whitespace-nowrap text-sm font-medium text-zinc-400 transition hover:text-white">
+                        Kontakta
+                    </a>
+
+                    <a
+                        href="#senaste"
+                        aria-label="Sök"
+                        class="text-zinc-400 transition hover:text-orange-400">
+                        <svg
+                            xmlns="http://w3.org"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.7"
+                            stroke="currentColor"
+                            class="h-5 w-5">
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="m21 21-4.35-4.35m1.35-5.4a6.75 6.75 0 1 1-13.5 0 6.75 6.75 0 0 1 13.5 0Z" />
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- 3. HÖGER SPALT: Logga in längst till höger -->
+                <div class="flex justify-end">
+                    <a
+                        href="{{ url('/login') }}"
+                        class="whitespace-nowrap text-sm font-medium text-orange-400 transition hover:text-white">
+                        Logga in
+                    </a>
+                </div>
 
             </div>
 

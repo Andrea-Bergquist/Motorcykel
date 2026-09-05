@@ -1,5 +1,5 @@
 <x-mail::message>
-MC Bloggen Nyhetsbrev
+<strong>Uppdatering av vårt nyhetsbrev!</strong>
 
 Då var det dags för ett nytt nyhetsbrev från MC Bloggen! Vi har några spännande uppdateringar och artiklar som vi vill dela med dig.
 

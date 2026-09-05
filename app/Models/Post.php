@@ -8,6 +8,14 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Post extends Model
 {
+    protected $fillable = [
+        'title',
+        'content',
+        'author_id',
+    ]; 
+
+    protected $table = 'posts';
+    
     public function images(): HasMany
     {
         return $this->hasMany(PostImage::class);

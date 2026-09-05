@@ -114,6 +114,9 @@
 
         </div>
 
+        <div class="mt-16 flex justify-center custom-pagination">
+            {{ $posts->fragment('senaste')->links('pagination::bootstrap-4') }}
+        </div>
 
         {{-- =================================================
              Inläggen
@@ -175,6 +178,73 @@
         </article>
 
         @endforeach
+
+        {{-- Pagineringen med en klass så JavaScript kan hitta länkarna --}}
+        <div class="mt-16 flex justify-center custom-pagination">
+            {{ $posts->fragment('senaste')->links('pagination::bootstrap-4') }}
+        </div>
+
+        <style>
+            /* Hela container-vy */
+            .custom-pagination .pagination {
+                display: flex;
+                gap: 0.5rem;
+                list-style: none;
+                padding: 0;
+            }
+
+            /* Alla knappar */
+            .custom-pagination .page-item .page-link {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 2.5rem;
+                height: 2.5rem;
+                padding: 0 0.75rem;
+                font-size: 0.875rem;
+                font-weight: 700;
+                border-radius: 0.5rem;
+                border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                background-color: #18181b !important;
+                /* bg-zinc-900 */
+                color: #a1a1aa !important;
+                /* text-zinc-400 */
+                text-decoration: none;
+                transition: all 0.2s;
+            }
+
+            /* Hovring på klickbara knappar */
+            .custom-pagination .page-item:not(.active):not(.disabled) .page-link:hover {
+                background-color: #27272a !important;
+                /* bg-zinc-800 */
+                color: #ffffff !important;
+                border-color: rgba(255, 255, 255, 0.2) !important;
+            }
+
+            /* Den AKTIVA sidan (Orange!) */
+            .custom-pagination .page-item.active .page-link {
+                background-color: #f97316 !important;
+                /* bg-orange-500 */
+                border-color: #f97316 !important;
+                color: #09090b !important;
+                /* text-zinc-950 */
+            }
+
+            /* Inaktiverade knappar */
+            .custom-pagination .page-item.disabled .page-link {
+                opacity: 0.4;
+                cursor: not-allowed;
+            }
+        </style>
+
+        {{-- JavaScript som tvingar webbläsaren att hoppa direkt utan animation --}}
+        <script>
+            document.querySelectorAll('.custom-pagination a').forEach(link => {
+                link.addEventListener('click', () => {
+                    document.documentElement.style.scrollBehavior = 'auto';
+                });
+            });
+        </script>
 
     </div>
     {{-- =========================================================
@@ -354,4 +424,4 @@
         </div>
     </section>
 
-@endsection
+    @endsection

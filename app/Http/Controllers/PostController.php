@@ -6,6 +6,8 @@ use App\Models\NewsletterSubscriber;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\NewsletterSubscription;
+use App\Mail\NewsletterMail;
+use Illuminate\Support\Facades\Mail;
 
 class PostController extends Controller
 {
@@ -13,7 +15,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::orderBy('created_at', 'desc')
-            ->paginate(2);
+            ->paginate(5);
 
         return view('welcome', compact('posts'));
     }
@@ -42,5 +44,14 @@ class PostController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Tack för att du prenumererar på vårt nyhetsbrev!');
+    }
+
+    //Send a email for the newsletter
+    public function sendMail()
+    {
+        Mail::to('andreabergquist@msn.com')->queue(new NewsletterMail());
+
+        return redirect()->back()->with('success', 'E-post skickad!');
+
     }
 }

@@ -11,6 +11,7 @@ Route::get('/post/{id}', [PostController::class, 'show'])->name('show');
 
 Route::post('/newsletter/subscribe', [PostController::class, 'subscribe'])->name('newsletter.subscribe');
 
+Route::get('/send-mail', [PostController::class, 'sendMail']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -9,10 +9,10 @@ use App\Models\Post;
 class AdminController extends Controller
 {
 
-     public function index()
+    public function index()
     {
         $posts = Post::latest()->paginate(5);
-        
+
         return view('admin.index', compact('posts'));
     }
 
@@ -50,13 +50,31 @@ class AdminController extends Controller
 
     public function update(Request $request, Post $post)
     {
-        // Validera data
+        // 1. Validera data
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'body' => 'required|string',
+            'content' => 'required|string',
+            'image' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif,svg', // Ändrat till nullable om man inte vill byta bild
         ]);
 
-        // Uppdatera posten
+        // 2. Hantera bildbytet om en ny bild har skickats med
+        if ($request->hasFile('image')) {
+            // (Valfritt) Ta bort den gamla bilden från servern först om du vill städa upp
+            if ($post->image && \Storage::disk('public')->exists($post->image)) {
+                \Storage::disk('public')->delete($post->image);
+            }
+
+            // Spara den nya bilden i mappen 'storage/app/public/posts'
+            $path = $request->file('image')->store('posts', 'public');
+
+            // Spara filvägen i vår validerade array som ska till databasen
+            $validated['image'] = $path;
+        } else {
+            // Om ingen ny bild laddades upp, ta bort 'image' från arrayen så den inte skriver över med null
+            unset($validated['image']);
+        }
+
+        // 3. Uppdatera posten i databasen
         $post->update($validated);
 
         return redirect()->route('admin.index')

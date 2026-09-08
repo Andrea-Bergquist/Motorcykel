@@ -11,7 +11,7 @@ class AdminController extends Controller
 
      public function index()
     {
-        $posts = Post::all();
+        $posts = Post::latest()->paginate(5);
         
         return view('admin.index', compact('posts'));
     }

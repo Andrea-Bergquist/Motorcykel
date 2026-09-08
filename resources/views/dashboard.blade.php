@@ -41,6 +41,8 @@
 
        <div>
             @yield('admin-content')
+
+            @yield('admin-edit')
        </div>
 
         

@@ -1,7 +1,7 @@
 <nav
     x-data="{ open: false }"
     class="sticky top-0 z-50 border-b border-white/10 bg-zinc-950/95 backdrop-blur-xl">
-    
+
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
 
         <div class="flex h-20 items-center justify-between">
@@ -53,7 +53,7 @@
                         aria-label="Sök"
                         class="text-zinc-400 transition hover:text-orange-400">
                         <svg
-                            xmlns="http://w3.org"
+                            xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke-width="1.7"
@@ -67,13 +67,30 @@
                     </a>
                 </div>
 
-                <!-- 3. HÖGER SPALT: Logga in längst till höger -->
-                <div class="flex justify-end">
+                <!-- 3. HÖGER SPALT: Logga in längst till höger (items-center ser till att de ligger rakt) -->
+                <div class="flex items-center justify-end">
+                    @auth
+                    {{-- Visas bara när användaren ÄR inloggad --}}
+                    <a
+                        href="{{ url('/dashboard') }}"
+                        class="whitespace-nowrap text-sm font-bold uppercase tracking-wide text-orange-500 transition hover:text-zinc-400">
+                        dashboard
+                    </a>
+                    <form method="POST" action="{{ route('logout') }}" class="inline-flex items-center">
+                        @csrf
+                        <button
+                            type="submit"
+                            class="text-sm font-bold ml-5 uppercase tracking-wide text-orange-500 transition hover:text-zinc-400">
+                            Logga ut
+                        </button>
+                    </form>
+                    @else
                     <a
                         href="{{ url('/login') }}"
-                        class="whitespace-nowrap text-sm font-medium text-orange-400 transition hover:text-white">
+                        class="whitespace-nowrap text-sm font-bold uppercase tracking-wide text-orange-500 transition hover:text-zinc-400">
                         Logga in
                     </a>
+                    @endauth
                 </div>
 
             </div>
@@ -153,6 +170,33 @@
                     class="block rounded-lg px-4 py-3 text-sm text-zinc-400 hover:bg-white/5 hover:text-white">
                     Kontakta
                 </a>
+
+                {{-- Mobil Auth-sektion --}}
+                <div class="border-t border-white/5 mt-4 pt-4 px-4 flex items-center">
+                    @auth
+                    <a
+                        href="{{ url('/dashboard') }}"
+                        @click="open = false"
+                        class="text-sm font-bold uppercase tracking-wide text-orange-500 hover:text-zinc-400">
+                        dashboard
+                    </a>
+                    <form method="POST" action="{{ route('logout') }}" class="inline-flex items-center">
+                        @csrf
+                        <button
+                            type="submit"
+                            class="text-sm font-bold ml-5 uppercase tracking-wide text-orange-500 hover:text-zinc-400">
+                            Logga ut
+                        </button>
+                    </form>
+                    @else
+                    <a
+                        href="{{ url('/login') }}"
+                        @click="open = false"
+                        class="text-sm font-bold uppercase tracking-wide text-orange-500 hover:text-zinc-400">
+                        Logga in
+                    </a>
+                    @endauth
+                </div>
 
             </div>
         </div>

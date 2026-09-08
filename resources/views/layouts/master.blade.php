@@ -31,6 +31,8 @@
         @yield('post')
 
         @yield('login')
+
+        @yield('dashboard')
     </main>
 
     @include('layouts.footer')

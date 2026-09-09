@@ -12,7 +12,9 @@ class PostImage extends Model
         'caption',
         'post_id',
     ];
-    
+
+    protected $table = 'post_images';
+
     public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class);

@@ -149,7 +149,7 @@
                     </h3>
 
                     <p class="mt-3 max-w-2xl text-sm leading-6 text-zinc-400">
-                        {{ Str::words($post->content, 20, '...') }}
+                        {!! Str::markdown(Str::words($post->content, 30, '...')) !!}
                     </p>
 
                     <a

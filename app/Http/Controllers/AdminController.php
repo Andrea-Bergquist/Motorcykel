@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Admin;
 use App\Models\Post;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class AdminController extends Controller
 {
@@ -18,22 +20,113 @@ class AdminController extends Controller
 
     public function create()
     {
-        return view('posts.create');
+        return view('admin.create');
     }
 
     public function store(Request $request)
     {
-        // Validera inkommande data
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'body' => 'required|string',
+            'content' => 'required|string',
+
+            'image' => [
+                'required',
+                'image',
+                'max:2048',
+                'mimes:jpeg,png,jpg,gif',
+            ],
+
+            'post_images' => [
+                'nullable',
+                'array',
+            ],
+
+            'post_images.*' => [
+                'image',
+                'max:2048',
+                'mimes:jpeg,png,jpg,gif',
+            ],
+
+            'captions' => [
+                'nullable',
+                'array',
+            ],
+
+            'captions.*' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
         ]);
 
-        // Skapa posten i databasen
-        Post::create($validated);
 
-        // Skicka tillbaka användaren med ett framgångsmeddelande
-        return redirect()->route('posts.index')
+        $post = DB::transaction(function () use ($request, $validated) {
+
+            /*
+        |--------------------------------------------------------------------------
+        | Huvudbild
+        |--------------------------------------------------------------------------
+        */
+
+            $mainImage = $request->file('image');
+
+            $mainFilename = Str::uuid() . '.' . $mainImage->getClientOriginalExtension();
+
+            $mainImage->move(
+                public_path('images'),
+                $mainFilename
+            );
+
+
+            /*
+        |--------------------------------------------------------------------------
+        | Skapa posten
+        |--------------------------------------------------------------------------
+        */
+
+            $post = Post::create([
+                'title' => $validated['title'],
+                'content' => $validated['content'],
+                'image' => $mainFilename,
+            ]);
+
+
+            /*
+        |--------------------------------------------------------------------------
+        | Extra bilder
+        |--------------------------------------------------------------------------
+        */
+
+            if ($request->hasFile('post_images')) {
+
+                foreach ($request->file('post_images') as $index => $image) {
+
+                    if (!$image) {
+                        continue;
+                    }
+
+                    $filename = Str::uuid() . '.' . $image->getClientOriginalExtension();
+
+                    $image->move(
+                        public_path('images'),
+                        $filename
+                    );
+
+
+                    $post->images()->create([
+                        'image' => $filename,
+                        'caption' => $request->input("captions.$index"),
+                    ]);
+                }
+            }
+
+
+            return $post;
+        });
+
+
+        return redirect()
+            ->route('admin.index')
             ->with('success', 'Inlägget har skapats!');
     }
 
@@ -50,34 +143,200 @@ class AdminController extends Controller
 
     public function update(Request $request, Post $post)
     {
-        // 1. Validera data
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'image' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif,svg', // Ändrat till nullable om man inte vill byta bild
+
+            'image' => [
+                'nullable',
+                'image',
+                'max:2048',
+                'mimes:jpeg,png,jpg,gif',
+            ],
+
+            'post_images' => [
+                'nullable',
+                'array',
+            ],
+
+            'post_images.*' => [
+                'image',
+                'max:2048',
+                'mimes:jpeg,png,jpg,gif',
+            ],
+
+            'captions' => [
+                'nullable',
+                'array',
+            ],
+
+            'captions.*' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+
+            'existing_captions' => [
+                'nullable',
+                'array',
+            ],
+
+            'existing_captions.*' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+
+            'delete_images' => [
+                'nullable',
+                'array',
+            ],
+
+            'delete_images.*' => [
+                'integer',
+                'exists:post_images,id',
+            ],
         ]);
 
-        // 2. Hantera bildbytet om en ny bild har skickats med
+
+        /*
+    |--------------------------------------------------------------------------
+    | Uppdatera titel och innehåll
+    |--------------------------------------------------------------------------
+    */
+
+        $post->update([
+            'title' => $validated['title'],
+            'content' => $validated['content'],
+        ]);
+
+
+        /*
+    |--------------------------------------------------------------------------
+    | Byt huvudbild
+    |--------------------------------------------------------------------------
+    */
+
         if ($request->hasFile('image')) {
-            // (Valfritt) Ta bort den gamla bilden från servern först om du vill städa upp
-            if ($post->image && \Storage::disk('public')->exists($post->image)) {
-                \Storage::disk('public')->delete($post->image);
+
+            // Ta bort gamla huvudbilden
+            if (
+                $post->image &&
+                file_exists(public_path('images/' . $post->image))
+            ) {
+                unlink(public_path('images/' . $post->image));
             }
 
-            // Spara den nya bilden i mappen 'storage/app/public/posts'
-            $path = $request->file('image')->store('posts', 'public');
 
-            // Spara filvägen i vår validerade array som ska till databasen
-            $validated['image'] = $path;
-        } else {
-            // Om ingen ny bild laddades upp, ta bort 'image' från arrayen så den inte skriver över med null
-            unset($validated['image']);
+            $file = $request->file('image');
+
+            $filename = \Illuminate\Support\Str::uuid()
+                . '.'
+                . $file->getClientOriginalExtension();
+
+            $file->move(
+                public_path('images'),
+                $filename
+            );
+
+
+            $post->update([
+                'image' => $filename,
+            ]);
         }
 
-        // 3. Uppdatera posten i databasen
-        $post->update($validated);
 
-        return redirect()->route('admin.index')
+        /*
+    |--------------------------------------------------------------------------
+    | Uppdatera captions på befintliga bilder
+    |--------------------------------------------------------------------------
+    */
+
+        if ($request->has('existing_captions')) {
+
+            foreach ($request->input('existing_captions', []) as $imageId => $caption) {
+
+                $postImage = $post->images()
+                    ->where('id', $imageId)
+                    ->first();
+
+                if ($postImage) {
+
+                    $postImage->update([
+                        'caption' => $caption,
+                    ]);
+                }
+            }
+        }
+
+
+        /*
+    |--------------------------------------------------------------------------
+    | Ta bort markerade bilder
+    |--------------------------------------------------------------------------
+    */
+
+        if ($request->has('delete_images')) {
+
+            foreach ($request->input('delete_images', []) as $imageId) {
+
+                $postImage = $post->images()
+                    ->where('id', $imageId)
+                    ->first();
+
+                if ($postImage) {
+
+                    // Ta bort den fysiska filen
+                    if (
+                        $postImage->image &&
+                        file_exists(public_path('images/' . $postImage->image))
+                    ) {
+                        unlink(public_path('images/' . $postImage->image));
+                    }
+
+                    // Ta bort databasraden
+                    $postImage->delete();
+                }
+            }
+        }
+
+
+        /*
+    |--------------------------------------------------------------------------
+    | Lägg till nya bilder
+    |--------------------------------------------------------------------------
+    */
+
+        if ($request->hasFile('post_images')) {
+
+            foreach ($request->file('post_images') as $index => $image) {
+
+                if (!$image) {
+                    continue;
+                }
+
+
+                $filename = \Illuminate\Support\Str::uuid()
+                    . '.'
+                    . $image->getClientOriginalExtension();
+
+
+                $image->move(
+                    public_path('images'),
+                    $filename
+                );
+
+
+                $post->images()->create([
+                    'image' => $filename,
+                    'caption' => $request->input("captions.$index"),
+                ]);
+            }
+        }
+
+
+        return redirect()
+            ->route('admin.index')
             ->with('success', 'Inlägget har uppdaterats!');
     }
 

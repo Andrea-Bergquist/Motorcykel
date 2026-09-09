@@ -7,6 +7,9 @@ use App\Models\Admin;
 use App\Models\Post;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Models\NewsletterSubscriber;
+use App\Mail\NewsletterMail;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
@@ -124,6 +127,18 @@ class AdminController extends Controller
             return $post;
         });
 
+        /*
+    |--------------------------------------------------------------------------
+    | Skicka nyhetsbrev till alla prenumeranter (KÖAS AUTOMATISKT)
+    |--------------------------------------------------------------------------
+    */
+        // 1. Hämta alla prenumeranters e-postadresser
+        $subscribers = NewsletterSubscriber::all();
+
+        // 2. Loopa igenom och lägg till i kön
+        foreach ($subscribers as $subscriber) {
+            Mail::to($subscriber->email)->send(new NewsletterMail($post));
+        }
 
         return redirect()
             ->route('admin.index')

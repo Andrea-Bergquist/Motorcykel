@@ -1,9 +1,13 @@
+{{-- resources/views/emails/published.blade.php --}}
 <x-mail::message>
-<strong>Uppdatering av vårt nyhetsbrev!</strong>
+# Nytt inlägg på bloggen!
 
-Då var det dags för ett nytt nyhetsbrev från MC Bloggen! Vi har några spännande uppdateringar och artiklar som vi vill dela med dig.
+Hej! Vi har precis publicerat ett nytt inlägg som vi tror att du vill läsa: **{{ $post->title }}**
 
+<x-mail::button :url="route('show', $post->id)">
+Läs hela inlägget här
+</x-mail::button>
 
-Tack,<br>
+Tack för att du prenumererar,<br>
 {{ config('app.name') }}
 </x-mail::message>

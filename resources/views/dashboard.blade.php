@@ -20,32 +20,36 @@
             </div>
 
             {{-- Snabblänkar: Skapa nytt inlägg --}}
-            <div>
-                <a href="{{ route('admin.create') }}" class="inline-flex items-center justify-center rounded-lg bg-orange-500 px-5 py-3 text-sm font-black uppercase tracking-wide text-zinc-950 transition hover:bg-orange-400">
+            <<div class="flex flex-wrap gap-3">
+
+                <a
+                    href="{{ route('admin.create') }}"
+                    class="inline-flex items-center justify-center rounded-lg bg-orange-500 px-5 py-3 text-sm font-black uppercase tracking-wide text-zinc-950 transition hover:bg-orange-400">
                     + Skapa nytt inlägg
                 </a>
-            </div>
 
-            <div>
-                <a href="{{ route('admin.index') }}" class="inline-flex items-center justify-center rounded-lg bg-orange-500 px-5 py-3 text-sm font-black uppercase tracking-wide text-zinc-950 transition hover:bg-orange-400">
+                <a
+                    href="{{ route('admin.index') }}"
+                    class="inline-flex items-center justify-center rounded-lg bg-orange-500 px-5 py-3 text-sm font-black uppercase tracking-wide text-zinc-950 transition hover:bg-orange-400">
                     + Alla inlägg
                 </a>
-            </div>
 
-            <div>
-                <a href="#" class="inline-flex items-center justify-center rounded-lg bg-orange-500 px-5 py-3 text-sm font-black uppercase tracking-wide text-zinc-950 transition hover:bg-orange-400">
+                <a
+                    href="{{ route('admin.newsletter.index') }}"
+                    class="inline-flex items-center justify-center rounded-lg bg-orange-500 px-5 py-3 text-sm font-black uppercase tracking-wide text-zinc-950 transition hover:bg-orange-400">
                     + Prenumeranter
                 </a>
-            </div>
+
         </div>
+    </div>
 
-        <div>
-            @yield('admin-content')
+    <div>
+        @yield('admin-content')
 
-            @yield('admin-create')
+        @yield('admin-create')
 
-            @yield('admin-edit')
-        </div>
+        @yield('admin-edit')
+    </div>
 
 
     </div>

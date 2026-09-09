@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\NewsletterSubscriberController;
 
 
 Route::get('/', [PostController::class, 'index'])->name('home');
@@ -20,6 +21,11 @@ Route::get('/dashboard', function () {
 
 
 Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/newsletter', [NewsletterSubscriberController::class, 'index'])
+        ->name('admin.newsletter.index');
+    Route::delete('/admin/newsletter/{subscriber}', [NewsletterSubscriberController::class, 'destroy'])
+        ->name('admin.newsletter.destroy');
+
     Route::resource('admin', AdminController::class)->parameters([
         'admin' => 'post'
     ]);

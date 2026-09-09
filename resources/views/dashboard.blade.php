@@ -20,7 +20,7 @@
             </div>
 
             {{-- Snabblänkar: Skapa nytt inlägg --}}
-            <<div class="flex flex-wrap gap-3">
+            <div class="flex flex-wrap gap-3">
 
                 <a
                     href="{{ route('admin.create') }}"
@@ -40,16 +40,16 @@
                     + Prenumeranter
                 </a>
 
+            </div>
         </div>
-    </div>
 
-    <div>
-        @yield('admin-content')
+        <div>
+            @yield('admin-content')
 
-        @yield('admin-create')
+            @yield('admin-create')
 
-        @yield('admin-edit')
-    </div>
+            @yield('admin-edit')
+        </div>
 
 
     </div>

@@ -138,6 +138,7 @@ class AdminController extends Controller
         // 2. Loopa igenom och lägg till i kön
         foreach ($subscribers as $subscriber) {
             Mail::to($subscriber->email)->send(new NewsletterMail($post));
+
         }
 
         return redirect()

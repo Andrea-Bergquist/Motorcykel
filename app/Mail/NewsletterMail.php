@@ -1,6 +1,8 @@
+<?php
+
 namespace App\Mail;
 
-use App\Models\Post; // Importöser din Post-modell
+use App\Models\Post;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -12,17 +14,19 @@ class NewsletterMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    // Gör variabeln public så blir den automatiskt tillgänglig i din Blade-vy
     public $post;
 
     /**
-     * Skapa en ny mailable-instans.
+     * Create a new message instance.
      */
     public function __construct(Post $post)
     {
         $this->post = $post;
     }
 
+    /**
+     * Get the message envelope.
+     */
     public function envelope(): Envelope
     {
         return new Envelope(
@@ -30,6 +34,9 @@ class NewsletterMail extends Mailable implements ShouldQueue
         );
     }
 
+    /**
+     * Get the message content definition.
+     */
     public function content(): Content
     {
         return new Content(
@@ -37,6 +44,9 @@ class NewsletterMail extends Mailable implements ShouldQueue
         );
     }
 
+    /**
+     * Get the attachments for the message.
+     */
     public function attachments(): array
     {
         return [];

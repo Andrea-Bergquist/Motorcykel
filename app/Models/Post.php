@@ -29,4 +29,9 @@ class Post extends Model
             ) . ' min läsning'
         );
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

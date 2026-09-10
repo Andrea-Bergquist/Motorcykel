@@ -137,6 +137,7 @@
 
         @endif
 
+        <livewire:comments-section :postId="$post->id" />
 
         {{-- =====================================================
          BACK TO BLOG

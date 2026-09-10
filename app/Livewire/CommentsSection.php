@@ -3,45 +3,70 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Livewire\Attributes\Validate;
+use Livewire\Attributes\RateLimit; // Importera RateLimit för Livewire 4
 use App\Models\Comment;
-use Illuminate\Support\Facades\Auth;
 
 class CommentsSection extends Component
 {
-    public $body = '';
-    public $guest_name = '';
+    // Håller koll på vilket inlägg vi kommenterar på
+    public $postId;
 
-    // Valideringsregler
-    protected function rules()
+    // Fälla för spamrobotar (måste förbli tom)
+    public string $honeypot = '';
+
+    // Formulärfält med Livewire 4-validering direkt på attributen
+    #[Validate('required|min:3')]
+    public string $guest_name = '';
+
+    #[Validate('required|max:500')]
+    public string $body = '';
+
+    // Körs när komponenten laddas in
+    public function mount($postId)
     {
-        return [
-            'body' => 'required|min:3|max:1000',
-            // Kräv namn om användaren INTE är inloggad
-            'guest_name' => Auth::check() ? 'nullable' : 'required|min:2|max:50',
-        ];
+        $this->postId = $postId;
     }
 
+    // Sparar kommentaren (Max 3 försök per minut för att förhindra spam)
+    #[RateLimit(maxAttempts: 3, decayMinutes: 1)]
     public function saveComment()
     {
+        // Om honungsfällan är ifylld är det en bot. Avbryt direkt utan felmeddelande.
+        if (!empty($this->honeypot)) {
+            return;
+        }
+
+        // Kör valideringen baserat på #[Validate]-attributen ovan
         $this->validate();
+
         Comment::create([
-            'user_id' => Auth::id(), // Blir null om gäst
-            'guest_name' => Auth::check() ? null : $this->guest_name,
+            'post_id' => $this->postId,
+            'guest_name' => $this->guest_name,
             'body' => $this->body,
         ]);
-        // Rensa fälten efteråt
-        $this->reset(['body', 'guest_name']);
 
-        // Skicka en notis till sessionen (valfritt)
-        session()->flash('message', 'Kommentaren har skickats!');
+        // Tömmer fälten efteråt, inklusive honungsfällan
+        $this->reset(['guest_name', 'body', 'honeypot']);
     }
-    
+
     public function render()
     {
-        // Hämta de senaste kommentarerna
-        $comments = Comment::with('user')->latest()->get();
         return view('livewire.comments-section', [
-            'comments' => $comments
+            'comments' => Comment::where('post_id', $this->postId)->latest()->get()
         ]);
+    }
+
+    // Ta bort en specifik kommentar
+    public function deleteComment($commentId)
+    {
+        // Säkerställ att användaren faktiskt är inloggad innan radering sker
+        if (auth()->check()) {
+            $comment = Comment::find($commentId);
+
+            if ($comment) {
+                $comment->delete();
+            }
+        }
     }
 }

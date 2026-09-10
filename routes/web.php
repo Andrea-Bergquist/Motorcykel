@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\NewsletterSubscriberController;
+use App\Http\Controllers\ContactController;
 
 
 Route::get('/', [PostController::class, 'index'])->name('home');
@@ -14,6 +15,9 @@ Route::get('/post/{id}', [PostController::class, 'show'])->name('show');
 Route::post('/newsletter/subscribe', [PostController::class, 'subscribe'])->name('newsletter.subscribe');
 
 Route::get('/send-mail', [PostController::class, 'sendMail']);
+
+Route::post('/kontakt', [ContactController::class, 'send'])
+    ->name('contact.send');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

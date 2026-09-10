@@ -386,38 +386,186 @@
     </section>
 
     {{-- =========================================================
-     CTA
-    ========================================================= --}}
+     CONTACT FORM
+     ========================================================= --}}
     <section
         id="kontakt"
-        class="bg-orange-500">
-        <div class="mx-auto max-w-6xl px-6 py-20 lg:px-8">
+        class="border-t border-white/10 bg-zinc-950">
 
-            <div class="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+        <div
+            id="kontakt-form"
+            class="mx-auto max-w-6xl px-6 py-24 lg:px-8">
 
-                <div class="max-w-2xl">
+            <div class="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
 
-                    <p class="text-sm font-black uppercase tracking-[0.2em] text-zinc-950/60">
-                        Hör av dig
-                    </p>
+                {{-- Intro --}}
+                <div>
 
-                    <h2 class="mt-2 text-3xl font-black text-zinc-950 sm:text-4xl">
+                    <div class="flex items-center gap-3">
+                        <span class="h-0.5 w-6 bg-orange-500"></span>
+
+                        <p class="text-sm font-bold uppercase tracking-[0.2em] text-orange-500">
+                            Hör av dig
+                        </p>
+                    </div>
+
+                    <h2 class="mt-4 text-3xl font-black text-white sm:text-4xl">
                         Har du en historia från vägen?
                     </h2>
 
-                    <p class="mt-4 text-zinc-950/70">
-                        Vi vill gärna höra om dina bästa turer, favoritvägar
-                        och motorcykeläventyr.
+                    <p class="mt-5 max-w-md text-base leading-7 text-zinc-400">
+                        Vi vill gärna höra från dig. Skicka ett meddelande
+                        så återkommer vi så snart vi kan.
                     </p>
 
                 </div>
 
 
-                <a
-                    href="mailto:hej@mcbloggen.se"
-                    class="shrink-0 rounded-lg bg-zinc-950 px-7 py-4 text-sm font-bold text-white transition hover:bg-zinc-800">
-                    Kontakta oss →
-                </a>
+                {{-- Formulär --}}
+                <div class="rounded-xl border border-white/10 bg-zinc-900 p-6 sm:p-8">
+
+                    @if (session('success'))
+                    <div class="mb-6 rounded-lg border border-green-500/30 bg-green-500/10 p-4 text-sm text-green-400">
+                        {{ session('success') }}
+                    </div>
+                    @endif
+
+
+                    @if ($errors->any())
+                    <div class="mb-6 rounded-lg border border-red-500/30 bg-red-500/10 p-4">
+                        <p class="text-sm font-bold text-red-400">
+                            Något gick fel:
+                        </p>
+
+                        <ul class="mt-2 space-y-1 text-sm text-red-300">
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
+
+
+                    <form
+                        action="{{ route('contact.send') }}"
+                        method="POST"
+                        class="space-y-6">
+
+                        @csrf
+
+
+                        {{-- Honeypot --}}
+                        <div
+                            aria-hidden="true"
+                            style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">
+
+                            <label for="website">
+                                Mc modell
+                            </label>
+
+                            <input
+                                type="text"
+                                id="modell"
+                                name="modell"
+                                value=""
+                                tabindex="-1"
+                                autocomplete="off">
+                        </div>
+
+
+                        {{-- Namn --}}
+                        <div>
+                            <label
+                                for="name"
+                                class="mb-2 block text-sm font-bold text-white">
+                                Namn
+                            </label>
+
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                value="{{ old('name') }}"
+                                required
+                                maxlength="100"
+                                autocomplete="name"
+                                class="w-full rounded-lg border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none transition placeholder:text-zinc-600 focus:border-orange-500"
+                                placeholder="Ditt namn">
+                        </div>
+
+
+                        {{-- E-post --}}
+                        <div>
+                            <label
+                                for="email"
+                                class="mb-2 block text-sm font-bold text-white">
+                                E-post
+                            </label>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value="{{ old('email') }}"
+                                required
+                                maxlength="255"
+                                autocomplete="email"
+                                class="w-full rounded-lg border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none transition placeholder:text-zinc-600 focus:border-orange-500"
+                                placeholder="din@email.se">
+                        </div>
+
+
+                        {{-- Ärende --}}
+                        <div>
+                            <label
+                                for="subject"
+                                class="mb-2 block text-sm font-bold text-white">
+                                Ärende
+                            </label>
+
+                            <input
+                                type="text"
+                                id="subject"
+                                name="subject"
+                                value="{{ old('subject') }}"
+                                required
+                                maxlength="150"
+                                class="w-full rounded-lg border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none transition placeholder:text-zinc-600 focus:border-orange-500"
+                                placeholder="Vad gäller ditt meddelande?">
+                        </div>
+
+
+                        {{-- Meddelande --}}
+                        <div>
+                            <label
+                                for="message"
+                                class="mb-2 block text-sm font-bold text-white">
+                                Meddelande
+                            </label>
+
+                            <textarea
+                                id="message"
+                                name="message"
+                                rows="7"
+                                required
+                                maxlength="5000"
+                                class="w-full resize-y rounded-lg border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none transition placeholder:text-zinc-600 focus:border-orange-500"
+                                placeholder="Skriv ditt meddelande här...">{{ old('message') }}</textarea>
+                        </div>
+
+
+                        {{-- Skicka --}}
+                        <div class="pt-2">
+                            <button
+                                type="submit"
+                                class="inline-flex w-full items-center justify-center rounded-lg bg-orange-500 px-7 py-4 text-sm font-black uppercase tracking-wide text-zinc-950 transition hover:bg-orange-400 sm:w-auto">
+                                Skicka meddelande →
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
 
             </div>
 

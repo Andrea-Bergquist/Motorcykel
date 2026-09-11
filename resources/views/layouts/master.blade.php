@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="sv" class="scroll-smooth">
-
+<!-- Denna webbplats är gjord av Andréa Bergquist i Laravel 13, Tailwind CSS4, Alpine.js och Livewire- PHP 8.5.10 MySql -->
 <head>
     <meta charset="UTF-8">
 

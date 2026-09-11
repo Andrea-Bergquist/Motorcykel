@@ -42,9 +42,9 @@
                             @enderror
 
                             <!-- Success-meddelande placerat under -->
-                            @session('success')
+                            @session('news_success')
                             <p class="text-xs font-medium text-emerald-400 pl-1 animate-fade-in">
-                                {{ session('success') }}
+                                {{ session('news_success') }}
                             </p>
                             @endsession
                         </div>

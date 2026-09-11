@@ -43,15 +43,14 @@ class PostController extends Controller
             'email' => $request->input('email'),
         ]);
 
-        return redirect()->back()->with('success', 'Tack för att du prenumererar på vårt nyhetsbrev!');
+        return redirect()->back()->with('news_success', 'Tack för att du prenumererar på vårt nyhetsbrev!');
     }
 
     //Send a email for the newsletter, denna ska läggas i funktionen för att uppdatera nyhetsbrevet.
     public function sendMail()
     {
-        Mail::to('andreabergquist@msn.com')->queue(new NewsletterMail());
+        Mail::to('andrea.bergquist70@gmail.com')->queue(new NewsletterMail());
 
         return redirect()->back()->with('success', 'E-post skickad!');
-
     }
 }

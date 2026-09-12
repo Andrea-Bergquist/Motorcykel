@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Carbon;
 
@@ -12,7 +13,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        /** @var Application $app */
+        $app = $this->app;
+        $app->usePublicPath(base_path('../public_html'));
     }
 
     /**
@@ -20,6 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Carbon::setLocale(config('app.locale')); 
+        Carbon::setLocale(config('app.locale'));
     }
 }

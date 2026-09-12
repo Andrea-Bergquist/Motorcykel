@@ -140,13 +140,6 @@ class AdminController extends Controller
             Mail::to($subscriber->email)->send(new NewsletterMail($post));
         }
 
-        // 3. ON-DEMAND TRIGER: Starta kön i bakgrunden utan att blockera denna request
-        // Detta kör "php artisan queue:work --once" asynkront
-        \Illuminate\Support\Facades\Artisan::queue('queue:work', [
-            '--once' => true,
-            '--tries' => 1,
-            '--timeout' => 60
-        ]);
 
         return redirect()
             ->route('admin.index')

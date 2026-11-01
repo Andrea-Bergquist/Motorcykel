@@ -1,4 +1,4 @@
-# 📬 Laravel 13 - Kontaktformulär & Projektportfölj
+# 📬 Laravel 13 - MC Blog med kontaktformulär och inloggning admin
 
 Detta är ett av mina färdiga webbprojekt byggt med **Laravel 13**. Applikationen innehåller ett fullt fungerande kontaktformulär där användare kan skicka meddelanden, vilket sedan hanteras och skickas vidare som e-post med hjälp av Laravels **Mailable-klasser**.
 

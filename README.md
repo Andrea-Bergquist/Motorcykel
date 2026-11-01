@@ -17,10 +17,12 @@ Detta är ett modernt och levande bloggprojekt byggt med **Laravel 13**. Hemsida
 *   **Kategorifiltrering:** Sömlös sortering av artiklar (Motorcyklar, Resor, Mek & tips, Tester) för hög användarvänlighet.
 *   **Nyhetsbrev:** Integrerad prenumerationsfunktion för utskick av de senaste artiklarna till läsarens inkorg.
 
-### 📬 Skräddarsytt Kontakt- & Ärendeformulär
+### 📬 Skräddarsytt Kontakt- & Ärendeformulär med Spamskydd
 *   **Branschspecifika fält:** Innehåller fält för *MC-modell* och *Ärende*, vilket ger strukturerad data från besökaren.
 *   **Robust validering:** Serversidans validering som säkerställer att e-postadresser är giltiga och att alla obligatoriska fält är ifyllda innan sändning.
 *   **Mailable-integration:** Systemet använder Laravels `Mailable`-arkitektur för att omedelbart generera och skicka ett snyggt HTML-formaterat e-postmeddelande till bloggansvarig när en läsare hör av sig.
+*   **🛡️ Avancerat Botskydd:** Integrerat med både en osynlig **Honeypot**-fälla och **Cloudflare Turnstile** (ett modernt, integritetsvänligt alternativ till reCAPTCHA) för att effektivt stoppa spambotar utan att förstöra       användarupplevelsen.
+
 
 ---
 

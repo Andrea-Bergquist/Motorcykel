@@ -1,6 +1,9 @@
-# 🏍 MC Bloggen – Allt om livet på två hjul
+*   **[🏍 MC Bloggen - Livet på två hjul (Live: www.andréa.se)](LÄNK_TILL_PROJEKTET)**
+    En fullfjädrad motorcykelblogg med ett robust administrationsgränssnitt och avancerad backend-logik. 
+    *   **Tekniska funktioner:** Komplett fil- och bildhantering (huvudbilder samt extra galleribilder med bildtexter) säkrad via UUID och paketerad i atomiska databastransaktioner (`DB::transaction`).
+    *   **Automation & Köhantering:** Automatiserade nyhetsbrevsutskick till prenumeranter via Laravels `Mailable` och asynkrona bakgrundsköer (Queues).
+    *   **Säkerhet & Spamskydd:** Skyddade adminsidor (CRUD) via autentisering, parat med osynliga Honeypots och Cloudflare Turnstile för att eliminera spambotar på publika formulär.
 
-Detta är ett modernt och levande bloggprojekt byggt med **Laravel 13**. Hemsidan är utvecklad för motorcykelentusiaster och fokuserar på publicering av guider, resor och tester, samt att erbjuda besökare ett interaktivt kontaktformulär med automatiserade e-postaviseringar.
 
 **🔗 Se projektet live:** [www.andréa.se](https://xn--andra-esa.se)
 

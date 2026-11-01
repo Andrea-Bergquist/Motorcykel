@@ -5,7 +5,7 @@ Detta är ett modernt och levande bloggprojekt byggt med **Laravel 13**. Hemsida
 **🔗 Se projektet live:** [www.andréa.se](https://xn--andra-esa.se)
 
 ## 🛠 Tech Stack
-*   **Backend:** Laravel 13 & PHP 8.3+
+*   **Backend:** Laravel 13 & PHP 8.5+
 *   **Frontend & Interaktivitet:** Alpine.js
 *   **Styling:** Tailwind CSS (helt responsiv för mobila enheter på vägarna)
 *   **E-posthantering:** Laravels `Mailable`-system
